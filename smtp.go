@@ -12,7 +12,11 @@ type EmailConfig struct {
 	Password string
 }
 
-func (email EmailConfig) SendEmail(from string, to string, subject string, body string) error {
+//SendEmail
+//to 发送给谁 例子 发送多人用分号间隔 "111@qq.com;222@qq.com;333@qq.com"
+//subject 邮件的主题
+//body 邮件主要内容
+func (email EmailConfig) SendEmail(to string, subject string, body string) error {
 
 	auth := smtp.PlainAuth("", email.User, email.Password, email.Host)
 
@@ -20,25 +24,18 @@ func (email EmailConfig) SendEmail(from string, to string, subject string, body 
 
 	content := email.formatHtmlBody(body)
 
-	msg := []byte("To: " + to + "\r\nFrom: " + from + "\r\nSubject: " + subject + "\r\n" + contentType + "\r\n\r\n" + content)
+	msg := []byte("To: " + to + "\r\nFrom: " + email.User + "\r\nSubject: " + subject + "\r\n" + contentType + "\r\n\r\n" + content)
 
 	sendTo := strings.Split(to, ";")
 
 	addr := email.Host + ":" + email.Port
 
-	err := smtp.SendMail(addr, auth, from, sendTo, msg)
+	err := smtp.SendMail(addr, auth, email.User, sendTo, msg)
 
 	return err
 
 }
 
 func (email EmailConfig) formatHtmlBody(msg string) string {
-
-	return `<html>
-		<body>
-		<div>
-		"` + msg + `"
-		</div>
-		</body>
-		</html>`
+	return `<html><body><div>`+ msg + `</div></body></html>`
 }

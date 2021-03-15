@@ -7,7 +7,7 @@ import (
 
 func TestEmailConfig_formatHtmlBody(t *testing.T) {
 
-	config := EmailConfig{User: "@34", Password: "234", Host: "@34",Port: "587"}
+	config := EmailConfig{User: "@34", Password: "234", Host: "@34", Port: "587"}
 
 	res := config.formatHtmlBody("@34")
 
@@ -17,9 +17,9 @@ func TestEmailConfig_formatHtmlBody(t *testing.T) {
 
 func TestEmailConfig_SendEmail(t *testing.T) {
 
-	email := EmailConfig{User: "test", Password: "test", Host: "smtp.qq.com", Port: "587"}
+	email := EmailConfig{User: "xx@xx.com", Password: "xxx", Host: "smtp.qq.com", Port: "587"}
 
-	err := email.SendEmail("baikit", "985", "test", "激活码：007008")
+	err := email.SendEmail("xx@qq.com", "test", "激活码：007008")
 
 	fmt.Println(err)
 
